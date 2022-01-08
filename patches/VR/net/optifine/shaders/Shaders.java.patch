@@ -368,7 +368,20 @@
  
              if (j != i)
              {
-@@ -5218,12 +5278,25 @@
+@@ -5073,7 +5133,12 @@
+         cameraPositionY = d1;
+         cameraPositionZ = d2 - (double)cameraOffsetZ;
+         updateProjectionMatrix();
++        //Vivecraft - I do not know why this is necessary to fix shadows. It should be in stereo already.     
++        matrixStackIn.pushPose();
++        entityRenderer.applystereo(mc.currentPass, matrixStackIn);
+         setModelView(matrixStackIn.last().pose());
++        matrixStackIn.popPose();
++        //  
+         checkGLError("setCamera");
+     }
+ 
+@@ -5218,12 +5283,25 @@
          Matrix4f matrix4f1 = new Matrix4f(matrix4f);
          matrix4f1.transpose();
          matrix4f1.write(tempMat);
@@ -400,7 +413,7 @@
  
          if (customUniforms != null)
          {
-@@ -5373,7 +5446,6 @@
+@@ -5373,7 +5451,6 @@
          GlStateManager.disableAlphaTest();
          GlStateManager._disableBlend();
          GlStateManager._enableDepthTest();
@@ -408,7 +421,7 @@
          GlStateManager._depthMask(false);
          bindTextures(0, customTextures);
          framebuffer.bindColorImages(true);
-@@ -6324,9 +6396,9 @@
+@@ -6324,9 +6401,9 @@
      {
          try
          {
@@ -420,7 +433,7 @@
          {
              return;
          }
-@@ -6354,6 +6426,7 @@
+@@ -6354,6 +6431,7 @@
      private static void loadShaderPackResources()
      {
          shaderPackResources = new HashMap<>();
@@ -428,7 +441,7 @@
  
          if (shaderPackLoaded)
          {
-@@ -6387,13 +6460,14 @@
+@@ -6387,13 +6465,14 @@
                          {
                              String s6 = properties.getProperty(s5);
                              shaderPackResources.put(s5, s6);
